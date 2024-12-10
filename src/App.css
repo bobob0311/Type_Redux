@@ -1,1 +1,7 @@
 @import "./reset.css";
+
+#counter-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly ;
+}
