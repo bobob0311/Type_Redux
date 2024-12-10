@@ -2,10 +2,23 @@ import { useState } from "react";
 import Counter from './Counter'
 import styled from './CounterBox.module.css'
 
-export default function CounterBox() {
+type data = {
+  id: number;
+  name: string;
+  price: number;
+  buy: boolean;
+}
+
+
+type propsState = {
+    data: data[],
+}
+
+
+export default function CounterBox(props:propsState) {
+    const { data } = props;
     const [total, setTotal] = useState<number>(0);
-    const [counter, setCounter] = useState<JSX.Element[]>([]);
-    
+    console.log(data);
     const handlePlus = () => {
         setTotal(prev => prev + 1);
     }
@@ -14,22 +27,13 @@ export default function CounterBox() {
         setTotal(prev => prev - 1);
     }
 
-    const handleAddCount = () => {
-        setCounter(prevCounters => [
-            ...prevCounters,
-            <Counter key={prevCounters.length} onMinus={handleMinus} onPlus={handlePlus}></Counter>
-        ])
-    }
 
 
     
     return (
         <>
-            <button onClick={handleAddCount}>카운터 추가하기</button>
             <div id={styled.counterBox}>
-                {counter}
-                <Counter onMinus={handleMinus} onPlus={handlePlus}></Counter>
-                <Counter onMinus={handleMinus} onPlus={handlePlus}></Counter>
+                {data.map(item => <Counter key={item.id} data={item} onMinus={handleMinus} onPlus={handlePlus}></Counter>)}
             </div>
             <div className={styled.total}> Total : {total}</div>
         </>

@@ -1,2 +1,6 @@
 @import "./reset.css";
 
+.cardContainer{
+  display: flex;
+  justify-content: space-evenly;
+}
