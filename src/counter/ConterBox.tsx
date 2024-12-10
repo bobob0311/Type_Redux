@@ -5,15 +5,19 @@ import styled from './CounterBox.module.css'
 export default function CounterBox() {
     const [total, setTotal] = useState<number>(0);
     
-    const handleTotal = () => {
+    const handlePlus = () => {
         setTotal(prev => prev + 1);
+    }
+
+    const handleMinus = () => {
+        setTotal(prev => prev - 1);
     }
     
     return (
         <>
             <div id={styled.counterBox}>
-                <Counter onPlus={handleTotal}></Counter>
-                <Counter onPlus={handleTotal}></Counter>
+                <Counter onMinus={handleMinus} onPlus={handlePlus}></Counter>
+                <Counter onMinus={handleMinus} onPlus={handlePlus}></Counter>
             </div>
             <div className={styled.total}> Total : {total}</div>
         </>
