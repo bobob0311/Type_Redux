@@ -1,7 +1,10 @@
 import { useState } from "react"
 import styles from './Counter.module.css'
-
-export default function Counter() {
+type propsState = {
+    onPlus: () => void,
+}
+export default function Counter(props:propsState) {
+    const {onPlus} = props
     const [count, setCount] = useState<number>(0);
 
     const handleClick = () => {
@@ -11,7 +14,12 @@ export default function Counter() {
     return (
         <div className={styles.box}>
             <span>count : {count}</span>
-            <button onClick={handleClick}>+</button>
+            <button
+                onClick={() => {
+                    handleClick();
+                    onPlus();
+                }}
+            >+</button>
         </div>
     )
 }

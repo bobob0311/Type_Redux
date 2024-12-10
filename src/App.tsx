@@ -1,13 +1,10 @@
 import './App.css'
-import Counter from './counter/Counter.tsx'
+import CounterBox from './counter/ConterBox'
 function App() {
 
   return (
     <>
-      <div id='counter-box'> 
-        <Counter />
-        <Counter />
-      </div>
+      <CounterBox />
     </>
   )
 }

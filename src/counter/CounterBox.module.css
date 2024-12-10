@@ -1,0 +1,10 @@
+.total {
+    display: flex;
+    justify-content: center;
+}
+
+#counterBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
