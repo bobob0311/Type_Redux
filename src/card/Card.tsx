@@ -1,7 +1,8 @@
 import styled from './Card.module.css'
+import { useState } from 'react';
 
 type propsState = {
-    onAdd: (id: number) => void;
+    onAdd: (item : item) => void;
     data: {
         id: number,
         name: string,
@@ -9,11 +10,27 @@ type propsState = {
     }
 }
 
+type item = {
+    target: number,
+    count: number
+}
+
 export default function Card(props: propsState) {
+    const [count, setCount] = useState<number>(0);
     const { data,onAdd } = props;
 
-    const handleAddItem = (target:number) => {
-        onAdd(target)
+    const handleAddItem = (item:item) => {
+        onAdd(item)
+    }
+
+    const handlePlusClick = () => {
+        setCount(prev => prev + 1);
+    }
+
+    const handleMinusClick = () => {
+        if (count > 0) {
+            setCount(prev => prev -1);    
+        }
     }
 
     return (
@@ -21,8 +38,11 @@ export default function Card(props: propsState) {
             <div className={styled.card}>
                 <div>{data.name}</div>
                 <div>{data.price}</div>
+                <div>개수 : {count}</div>
+                <button onClick={ handlePlusClick}>+</button>
+                <button onClick={ handleMinusClick}>-</button>
             </div>
-            <button onClick={() =>handleAddItem(data.id)}>구매하기</button>
+            <button onClick={() => handleAddItem({ target :data.id ,count})}>구매하기</button>
         </>
     )
 
