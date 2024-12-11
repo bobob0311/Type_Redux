@@ -21,6 +21,7 @@ export default function Card(props: propsState) {
 
     const handleAddItem = (item:item) => {
         onAdd(item)
+        setCount(0);
     }
 
     const handlePlusClick = () => {
