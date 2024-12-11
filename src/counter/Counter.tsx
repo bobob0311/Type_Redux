@@ -8,8 +8,8 @@ type data = {
 }
 
 type propsState = {
-    onPlus: () => void,
-    onMinus: () => void,
+    onPlus: (id:number) => void,
+    onMinus: (id:number) => void,
     data : data,
 }
 export default function Counter(props:propsState) {
@@ -18,20 +18,22 @@ export default function Counter(props:propsState) {
 
     const handlePlusClick = () => {
         setCount(prev => prev + 1);
-        onPlus();
+        onPlus(data.id);
     }
 
     const handleMinusClick = () => {
         if (count > 0) {
             setCount((prev) => prev - 1);
-            onMinus();
+            onMinus(data.id);
         }
     }
 
     return (
         <div className={styles.box}>
             <span>{data.name}</span>
-            <span>count : {count}</span>
+            <span>개수 : {count}</span>
+            <span>가격 : {data.price}</span>
+            <span>총 가격 : { data.price * count}</span>
             <div>
                 <button onClick={handleMinusClick}>-</button>
                 <button onClick={handlePlusClick}>+</button>

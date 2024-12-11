@@ -18,13 +18,38 @@ type propsState = {
 export default function CounterBox(props:propsState) {
     const { data } = props;
     const [total, setTotal] = useState<number>(0);
-    console.log(data);
-    const handlePlus = () => {
+    const [totalPrice, setTotalPrice] = useState<number>(0);
+
+    const handlePlus = (id:number) => {
+        const selectedPrice = findTargetPrice(id);
+
         setTotal(prev => prev + 1);
+        setTotalPrice((prev) => {
+            if (!selectedPrice) {
+                return prev;
+            } else {
+                return prev + selectedPrice;     
+            }
+        });
     }
 
-    const handleMinus = () => {
+    const handleMinus = (id: number) => {
+        const selectedPrice = findTargetPrice(id);
+
         setTotal(prev => prev - 1);
+        setTotalPrice((prev) => {
+            if (!selectedPrice) {
+                return prev;
+            } else {
+                return prev - selectedPrice;     
+            }
+        });
+    }
+
+    const findTargetPrice = (id:number) => {
+        const selectedData = data.find((item) => item.id === id);
+        const targetPrice = selectedData?.price;
+        return targetPrice;
     }
 
 
@@ -35,7 +60,8 @@ export default function CounterBox(props:propsState) {
             <div id={styled.counterBox}>
                 {data.map(item => <Counter key={item.id} data={item} onMinus={handleMinus} onPlus={handlePlus}></Counter>)}
             </div>
-            <div className={styled.total}> Total : {total}</div>
+            <div className={styled.total}> 총 개수 : {total}</div>
+            <div className={styled.total}> 총 가격 : {totalPrice}</div>
         </>
     )
 }
