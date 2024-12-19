@@ -45,11 +45,19 @@ export const counterSlice = createSlice({
             const { price, id } = action.payload;
             const now = findSelectedItem(id, state.items);
             
-            state.totalCount -= 1;
-            state.totalPrice -= price;
+
 
             if (now) {
-                now.count -= 1;
+                if (now.count > 0) {
+                    now.count -= 1;
+                    state.totalCount -= 1;
+                    state.totalPrice -= price;
+                } else {
+                    const index = state.items.findIndex(item => item.id === id);
+                    if (index !== -1) {
+                        state.items.splice(index, 1); // 해당 아이템을 삭제
+                    }
+                }
             }
         },
 
