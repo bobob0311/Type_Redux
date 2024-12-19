@@ -38,12 +38,11 @@ export const counterSlice = createSlice({
 
             if (now) {
                 now.count += 1;
-                now.price += price;
             }
         },
 
         decrement: (state,action:PayloadAction<simple>) => {
-             const { price, id } = action.payload;
+            const { price, id } = action.payload;
             const now = findSelectedItem(id, state.items);
             
             state.totalCount -= 1;
@@ -51,7 +50,6 @@ export const counterSlice = createSlice({
 
             if (now) {
                 now.count -= 1;
-                now.price -= price;
             }
         },
 
@@ -67,12 +65,11 @@ export const counterSlice = createSlice({
                 state.items.push({
                     id: action.payload.id,
                     count: count,
-                    price: count * price,
+                    price: price,
                     name: name,
                 })
             } else {
                 now.count += count;
-                now.price += count * price;
             }
         }
     }

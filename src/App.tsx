@@ -2,8 +2,8 @@ import './App.css';
 import CounterBox from './counter/ConterBox';
 import Card from './card/Card';
 import { useState } from 'react';
-import { CounterByRedux } from './counterByRedux/CounterByRedux';
 import CardBoxByRedux from './cardByRedux/CardBoxByRedux';
+import { CounterBoxByRedux } from './counterByRedux/CounterBoxByRedux';
 
 type ItemType = {
   id: number;
@@ -117,7 +117,7 @@ function App() {
       </div>
       <CounterBox data={item} onPlus={(id) => handlePlusClick(id)} onMinus={(id) => handleMinusClick(id)} total={total} />
       <CardBoxByRedux/>
-      <CounterByRedux/>
+      <CounterBoxByRedux/>
     </>
   )
 }
