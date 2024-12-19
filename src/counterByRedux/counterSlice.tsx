@@ -2,15 +2,24 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface CounterState {
     totalCount: number,
-    totalPrice: number
+    totalPrice: number,
+    items: item[]
 }
 
-interface incrementByAmount {
-    amount: number,
-    price: number
+interface item{
+    id:number,
+    count: number,
+    price: number,
+    name: string,
+}
+
+interface simple{
+    id: number,
+    price: number,
 }
 
 const initialState: CounterState = {
+    items:[],
     totalCount: 0,
     totalPrice: 0
 }
@@ -19,13 +28,59 @@ export const counterSlice = createSlice({
     name: 'counter',
     initialState,
     reducers: {
-        increment: state  => { state.totalCount += 1 },
-        decrement: state  => { state.totalCount -= 1 },
-        incrementByAmount: (state, action:PayloadAction<incrementByAmount>) => {
-            state.totalPrice += action.payload.amount;
+        
+        increment: (state, action: PayloadAction<simple>) => {
+            const { price, id } = action.payload;
+            const now = findSelectedItem(id, state.items);
+            
+            state.totalCount += 1;
+            state.totalPrice += price;
+
+            if (now) {
+                now.count += 1;
+                now.price += price;
+            }
+        },
+
+        decrement: (state,action:PayloadAction<simple>) => {
+             const { price, id } = action.payload;
+            const now = findSelectedItem(id, state.items);
+            
+            state.totalCount -= 1;
+            state.totalPrice -= price;
+
+            if (now) {
+                now.count -= 1;
+                now.price -= price;
+            }
+        },
+
+        incrementByAmount: (state, action: PayloadAction<item>) => {
+            const { id, price, count, name } = action.payload;
+
+            state.totalCount += count;
+            state.totalPrice += count * price;
+            
+            const now = findSelectedItem(id, state.items);    
+
+            if (!now) {
+                state.items.push({
+                    id: action.payload.id,
+                    count: count,
+                    price: count * price,
+                    name: name,
+                })
+            } else {
+                now.count += count;
+                now.price += count * price;
+            }
         }
     }
 })
+
+function findSelectedItem(id: number, items: item[]) {
+    return items.find(item => item.id === id);
+}
 
 export const { increment, decrement, incrementByAmount } = counterSlice.actions
 

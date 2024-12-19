@@ -3,9 +3,15 @@ import { useCounterDispatch, useCounterSelector } from "../hooks";
 
 export function CounterByRedux() {
     const count = useCounterSelector(state => state.counter);
+    const { items, totalCount, totalPrice } = count;
     const dispatch = useCounterDispatch()
 
     return (
+    <>
+    { items.map(item => <div> {item.price}</div>) }
+        </>  
+        )
+        {/* 
         <div>
             <div>
                 <button
@@ -13,7 +19,8 @@ export function CounterByRedux() {
                     onClick={() => dispatch(increment())}>
                     +
                 </button>
-                <span>{count.totalCount}</span>
+                <div>{totalCount}</div>
+                <div>{totalPrice}</div>
                 <button
                     aria-label="Decrement value"
                     onClick={() => dispatch(decrement())}>
@@ -21,5 +28,6 @@ export function CounterByRedux() {
                 </button>
             </div>
         </div>
-    )
+        */}
+    
 }
