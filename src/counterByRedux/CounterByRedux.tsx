@@ -1,5 +1,5 @@
 import { useCounterDispatch } from "../hooks";
-import { decrement, increment } from "./counterSlice";
+import { decrement, increment, deleteItem } from "./counterSlice";
 
 interface CounterBoxByReduxState {
     data : item
@@ -25,6 +25,7 @@ export default function CounterByRedux(props:CounterBoxByReduxState) {
             <div>상품 총가격 : {price * count} </div>
             <button onClick={() => dispatch(increment({id:id, price:price}))}>+</button>
             <button onClick={() => dispatch(decrement({ id: id, price: price }))}>-</button>
+            <button onClick={() => dispatch(deleteItem(id))}>삭제 버튼~</button>
         </div>
     )
 }

@@ -79,6 +79,19 @@ export const counterSlice = createSlice({
             } else {
                 now.count += count;
             }
+        },
+
+        deleteItem: (state, action: PayloadAction<number>) => {
+            const id = action.payload;
+    
+            const index = state.items.findIndex(item => item.id === id);
+            if (index !== -1) {
+                const findedItem = state.items[index];
+                const { count, price } = findedItem;
+                state.totalCount -= count;
+                state.totalPrice -= count * price;
+                state.items.splice(index, 1)
+            }
         }
     }
 })
@@ -87,6 +100,6 @@ function findSelectedItem(id: number, items: item[]) {
     return items.find(item => item.id === id);
 }
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
+export const { increment, decrement, incrementByAmount, deleteItem} = counterSlice.actions
 
 export default counterSlice.reducer
