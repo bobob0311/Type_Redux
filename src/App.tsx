@@ -2,6 +2,7 @@ import './App.css';
 import CounterBox from './counter/ConterBox';
 import Card from './card/Card';
 import { useState } from 'react';
+import { CounterByRedux } from './counterByRedux/CounterByRedux';
 
 type ItemType = {
   id: number;
@@ -113,7 +114,8 @@ function App() {
       <div className='cardContainer'>
         {DUMMY_DATA.map((item) => <Card key={item.id} onAdd={(addItem) => handleAddCounter(addItem)} data={item}></Card>)} 
       </div>
-      <CounterBox data={item} onPlus={(id) =>handlePlusClick(id)} onMinus={(id) =>handleMinusClick(id)} total={total} />
+      <CounterBox data={item} onPlus={(id) => handlePlusClick(id)} onMinus={(id) => handleMinusClick(id)} total={total} />
+      <CounterByRedux/>
     </>
   )
 }
