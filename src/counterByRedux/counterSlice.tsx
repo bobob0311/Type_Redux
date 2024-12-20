@@ -33,10 +33,8 @@ export const counterSlice = createSlice({
             const { price, id } = action.payload;
             const now = findSelectedItem(id, state.items);
             
-            state.totalCount += 1;
-            state.totalPrice += price;
-
             if (now) {
+                changeTotal(state, 1, price);
                 now.count += 1;
             }
         },
@@ -45,59 +43,61 @@ export const counterSlice = createSlice({
             const { price, id } = action.payload;
             const now = findSelectedItem(id, state.items);
             
-
-
             if (now) {
                 if (now.count > 0) {
                     now.count -= 1;
-                    state.totalCount -= 1;
-                    state.totalPrice -= price;
+                    changeTotal(state, -1, price);
                 } else {
-                    const index = state.items.findIndex(item => item.id === id);
-                    if (index !== -1) {
-                        state.items.splice(index, 1); // 해당 아이템을 삭제
-                    }
+                    deleteItemById(state.items, id);
                 }
             }
         },
 
         incrementByAmount: (state, action: PayloadAction<item>) => {
             const { id, price, count, name } = action.payload;
-
-            state.totalCount += count;
-            state.totalPrice += count * price;
+            const now = findSelectedItem(id, state.items);
             
-            const now = findSelectedItem(id, state.items);    
-
-            if (!now) {
+            if (now) {
+                now.count += count;
+            } else {
                 state.items.push({
                     id: action.payload.id,
                     count: count,
                     price: price,
                     name: name,
                 })
-            } else {
-                now.count += count;
             }
+            changeTotal(state, count, price);
         },
 
         deleteItem: (state, action: PayloadAction<number>) => {
             const id = action.payload;
     
-            const index = state.items.findIndex(item => item.id === id);
-            if (index !== -1) {
-                const findedItem = state.items[index];
-                const { count, price } = findedItem;
-                state.totalCount -= count;
-                state.totalPrice -= count * price;
-                state.items.splice(index, 1)
+            const deletedValue = deleteItemById(state.items, id);
+            if (deletedValue) {
+                state.totalCount -= deletedValue.count;
+                state.totalPrice -= deletedValue.count * deletedValue.price;
             }
         }
     }
 })
 
-function findSelectedItem(id: number, items: item[]) {
+function findSelectedItem(id: number, items: item[]): item|undefined {
     return items.find(item => item.id === id);
+}
+
+function changeTotal(state:CounterState, amount:number, price:number) {
+    state.totalCount += amount;
+    state.totalPrice += amount * price;
+}
+
+function deleteItemById(arr:item[], id:number): item|undefined {
+    const index = arr.findIndex(item => item.id === id);
+    const value = arr[index];
+    if (index !== -1) {
+        arr.splice(index, 1);
+    }
+    return value;
 }
 
 export const { increment, decrement, incrementByAmount, deleteItem} = counterSlice.actions
